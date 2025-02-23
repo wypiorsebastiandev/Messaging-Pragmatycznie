@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\src\Inquiries\TicketFlow.Services.Inquiries.Api\TicketFlow.Services.Inquiries.Api.csproj" />
+      <ProjectReference Include="..\..\..\src\Shared\TicketFlow.Shared\TicketFlow.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentAssertions" Version="7.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+      <PackageReference Include="xunit" Version="2.9.2" />
+    </ItemGroup>
+
+</Project>

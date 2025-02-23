@@ -1,0 +1,57 @@
+version: "1.0"
+
+services:
+  rabbitmq:
+    image: rabbitmq-che
+    container_name: 'ticketflow-rabbitmq'
+    restart: unless-stopped
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    networks:
+      - TicketFlow
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 15692:15692
+  postgres:
+    image: postgres
+    shm_size: '4gb'
+    container_name: 'ticketflow-postgres'
+    restart: unless-stopped
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    networks:
+      - TicketFlow
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "4317:4317"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+
+networks:
+  TicketFlow:
+    name: ticketflow-network
+
+volumes:
+  rabbitmq:
+    driver: local
+  postgres:
+    driver: local
+ 
+  
