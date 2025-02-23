@@ -44,7 +44,7 @@ public static class Extensions
             .AddSystemMetrics(configuration)
             .AddObservability(configuration);
 
-        services.AddHostedService<InquiriesConsumerService>();
+        //services.AddHostedService<InquiriesConsumerService>();
         services.AddHostedService<InquiriesTopologyInitializer>();
         
         return services;
