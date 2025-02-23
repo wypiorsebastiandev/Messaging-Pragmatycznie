@@ -25,7 +25,7 @@ public static class Extensions
         registerer.Services.AddPostgres<OutboxDbContext>(registerer.Configuration);
         registerer.Services.AddScoped<IMessageOutbox, PostgresMessageOutbox>();
         registerer.Services.AddTransient<IMessagePublisher, OutboxMessagePublisher>();
-        registerer.Services.AddHostedService<OutboxBackgroundService>();
+        //registerer.Services.AddHostedService<OutboxBackgroundService>();
         registerer.Services.AddSingleton<OutboxLocalCache>();
         registerer.Services.AddSingleton<OutboxPublishChannel>();
         registerer.Services.AddScoped<IMessageExecutionStep, OutboxBeforeExecutionStep>();
