@@ -64,7 +64,7 @@ internal sealed class RabbitMqMessageConsumer(
 
         await EnsureTopologyReady(cancellationToken);
         
-        channel.BasicConsume(queue: destinationResolved, autoAck: false, consumer: consumer);
+        channel.BasicConsume(queue: destinationResolved, autoAck: true, consumer: consumer);
         return this;
     }
 
