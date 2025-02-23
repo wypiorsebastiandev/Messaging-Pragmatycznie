@@ -26,8 +26,8 @@ public static class Extensions
         services.AddSingleton<MessagePropertiesAccessor>();
         services.AddSingleton<TopologyReadinessAccessor>();
         registerer.Services.AddScoped<IMessageExecutor, MessageExecutor>();
-        registerer.Services.TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerExecutorDecorator<>));
-        registerer.Services.TryDecorate(typeof(IMessageHandler<>), typeof(MessageHandlerExecutorDecorator<>));
+        // registerer.Services.TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerExecutorDecorator<>));
+        // registerer.Services.TryDecorate(typeof(IMessageHandler<>), typeof(MessageHandlerExecutorDecorator<>));
         
         return services;
     }
