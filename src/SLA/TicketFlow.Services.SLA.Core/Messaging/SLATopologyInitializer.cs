@@ -64,6 +64,7 @@ public class SLATopologyInitializer : TopologyInitializerBase
                 publisherSource: "tickets-exchange",
                 consumerDestination: SLAConsumerService.TicketChangesQueue,
                 TopologyType.PublishSubscribe,
+                consumerCustomArgs: new Dictionary<string, object>() {{"x-single-active-consumer",true}},
                 cancellationToken: stoppingToken
             );
         }
