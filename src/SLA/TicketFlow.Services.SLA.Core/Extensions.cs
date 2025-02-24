@@ -104,7 +104,7 @@ public static class Extensions
             if (FeatureFlags.ExtendPartitioningExample)
             {
                 partitionNumbersParsed = Enumerable.Range(1, partitioningOpts.NumberOfPartitions).ToArray();
-                partitioningOpts = partitioningOpts with { OnlyOneActiveConsumerPerPartition = false };
+                partitioningOpts = partitioningOpts with { OnlyOneActiveConsumerPerPartition = true };
             }
 
             if (partitionNumbers is null || partitionNumbers.Length == 0)
