@@ -59,6 +59,7 @@ app.MapGet("/tickets/{ticketId}/", async (
 
 app.MapPost("/tickets/",
     async (
+        HttpContext httpContext,
         [FromBody] CreateTicketSynchronously command,
         [FromServices] ICommandHandler<CreateTicketSynchronously> handler,
         CancellationToken cancellationToken) =>
