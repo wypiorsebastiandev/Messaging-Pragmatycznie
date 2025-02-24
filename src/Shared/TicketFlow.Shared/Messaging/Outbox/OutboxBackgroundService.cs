@@ -36,7 +36,7 @@ public class OutboxBackgroundService(IServiceProvider serviceProvider, IOptions<
             
                 try
                 {
-                    var unprocessedMessages = await _messageOutbox.GetUnsentAsync(options.Value.BatchSize, cancellationToken);
+                    var unprocessedMessages = Array.Empty<OutboxMessage>().ToList(); //await _messageOutbox.GetUnsentAsync(options.Value.BatchSize, cancellationToken);
                     if (unprocessedMessages.Count > 0)
                     {
                         logger.LogInformation("Found {unprocessedMessageCount} unprocessed outbox messages. Publishing...",
