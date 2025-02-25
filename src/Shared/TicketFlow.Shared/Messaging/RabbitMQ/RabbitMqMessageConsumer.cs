@@ -328,7 +328,6 @@ internal sealed class RabbitMqMessageConsumer(
                 prefetchCount: (ushort)resiliencyOptions.Consumer.MaxMessagesFetchedPerConsumer, 
                 global: false);
         }
-        
     }
     
     private async Task EnsureTopologyReady(CancellationToken cancellationToken)
