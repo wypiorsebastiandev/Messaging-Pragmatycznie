@@ -22,10 +22,9 @@ internal sealed class MessageExecutor(
         {
             await ExecuteStepsAsync(ExecutionType.BeforeTransaction, cancellationToken);
 
-            await handle();
-            
             using (var scope = BeginTransaction())
             {
+                await handle();
                 await ExecuteStepsAsync(ExecutionType.WithinTransaction, cancellationToken);
 
                 scope.Complete();

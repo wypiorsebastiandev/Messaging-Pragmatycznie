@@ -50,7 +50,7 @@
     &quot;.NET Launch Settings Profile.TicketFlow.Services.Communication.Api: http.executor&quot;: &quot;Run&quot;,
     &quot;.NET Launch Settings Profile.TicketFlow.Services.Inquiries.Api: http.executor&quot;: &quot;Run&quot;,
     &quot;.NET Launch Settings Profile.TicketFlow.Services.SLA.Api: http.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Launch Settings Profile.TicketFlow.Services.Tickets.Api: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.TicketFlow.Services.Tickets.Api: http.executor&quot;: &quot;Debug&quot;,
     &quot;HTTP Request.inquiries-api | #3.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;M2L7&quot;,

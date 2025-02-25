@@ -35,10 +35,10 @@ public static class Extensions
             .AddQueries()
             .AddLogging()
             .AddMessaging(configuration, x => x
+                .UseOutbox()
                 .UseRabbitMq()
                 .UseMessagePublisherConvention<TicketsMessagePublisherConventionProvider>()
                 .UseDeduplication()
-                .UseOutbox()
                 .UseAnomalies()
                 .UseResiliency())
             .AddPostgres<TicketsDbContext>(configuration)
