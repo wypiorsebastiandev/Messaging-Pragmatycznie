@@ -44,9 +44,10 @@ internal sealed class RabbitMqMessagePublisher(ChannelFactory channelFactory, IM
         basicProperties.DeliveryMode = 2;
         basicProperties.Headers = new Dictionary<string, object>();
         
-        var headersToAdd = headers 
-                           ?? messageProperties?.Headers 
-                           ?? Enumerable.Empty<KeyValuePair<string, object>>();
+        var headersToAdd =
+            Enumerable.Empty<KeyValuePair<string, object>>() 
+            ?? headers
+            ?? messageProperties?.Headers;
 
         foreach (var header in headersToAdd)
         {
