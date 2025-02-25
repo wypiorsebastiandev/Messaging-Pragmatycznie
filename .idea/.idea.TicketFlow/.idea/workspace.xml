@@ -274,19 +274,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/src/Shared/TicketFlow.Shared/Messaging/RabbitMQ/RabbitMqMessageConsumer.cs</url>
-          <line>61</line>
-          <properties documentPath="$PROJECT_DIR$/src/Shared/TicketFlow.Shared/Messaging/RabbitMQ/RabbitMqMessageConsumer.cs" containingFunctionPresentation="Lambda expression inside Method 'ConsumeMessage'">
-            <startOffsets>
-              <option value="2494" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2534" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/Tickets/TicketFlow.Services.Tickets.Core/Messaging/Consuming/InquirySubmitted/InquirySubmittedHandler.cs</url>
           <line>25</line>
           <properties documentPath="$PROJECT_DIR$/src/Tickets/TicketFlow.Services.Tickets.Core/Messaging/Consuming/InquirySubmitted/InquirySubmittedHandler.cs" containingFunctionPresentation="Method 'HandleDefault'">

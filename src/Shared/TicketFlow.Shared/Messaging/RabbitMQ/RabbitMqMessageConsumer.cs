@@ -38,7 +38,6 @@ internal sealed class RabbitMqMessageConsumer(
         
         consumer.Received += async (model, ea) =>
         {
-            SetMessageProperties(ea.BasicProperties, ea.Redelivered);
             using var activity = CreateMessagingConsumeActivity(ea.BasicProperties);
 
             if (IsNotAcceptedMessageType(acceptedMessageTypes, ea))
