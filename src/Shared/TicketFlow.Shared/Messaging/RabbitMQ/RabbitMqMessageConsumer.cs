@@ -321,7 +321,7 @@ internal sealed class RabbitMqMessageConsumer(
 
     private void ConfigureConsumerQos(IModel channel)
     {
-        if (resiliencyOptions.Consumer.MaxMessagesFetchedPerConsumer > 0)
+        if (resiliencyOptions.Consumer.MaxMessagesFetchedPerConsumer < 0)
         {
             channel.BasicQos(
                 prefetchSize: 0, 
