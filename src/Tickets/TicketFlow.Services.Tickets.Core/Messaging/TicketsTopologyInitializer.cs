@@ -18,7 +18,6 @@ public class TicketsTopologyInitializer : TopologyInitializerBase
 
     protected override async Task CreateTopologyAsync(CancellationToken stoppingToken)
     {
-        await CreateAlertingTopology(stoppingToken);
         await CreateAnomalySynchronizationTopology(stoppingToken);
 
         var topologyBuilder = ServiceProvider.GetService<ITopologyBuilder>();

@@ -13,17 +13,9 @@ public class CommunicationConsumer(IMessageConsumer messageConsumer, AnomalySync
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await messageConsumer
-            .ConsumeMessage<TicketResolved>(
-                queue: TicketResolvedQueue,
-                acceptedMessageTypes: null, /* Accept all of them */
-                cancellationToken: stoppingToken);
-        
-        await messageConsumer
             .ConsumeMessage<ProducerAgnosticAlertMessage>(
                 queue: AlertsQueue,
                 acceptedMessageTypes: null, /* Accept all of them */
                 cancellationToken: stoppingToken);
-        
-        await anomalyConfigurator.ConsumeAnomalyChanges();
     }
 }
