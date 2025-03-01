@@ -29,7 +29,7 @@ public class CommunicationTopologyInitializer : TopologyInitializerBase
         );
 
         await topologyBuilder.CreateTopologyAsync(
-            publisherSource: AlertingTopologyBuilder.AlertsExchange,
+            publisherSource: AlertingTopologyBuilder.AlertsTopic,
             consumerDestination: CommunicationConsumer.AlertsQueue,
             TopologyType.PublishSubscribe,
             cancellationToken: stoppingToken

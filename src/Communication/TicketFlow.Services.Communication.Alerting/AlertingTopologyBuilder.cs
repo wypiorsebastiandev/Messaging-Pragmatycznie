@@ -5,7 +5,7 @@ namespace TicketFlow.Services.Communication.Alerting;
 
 public class AlertingTopologyBuilder(ITopologyBuilder topologyBuilder, IMessagePublisherConventionProvider publisherConventionProvider)
 {
-    public const string AlertsExchange = "alerting";
+    public const string AlertsTopic = "alerting";
     
     public async Task CreateTopologyAsync(CancellationToken cancellationToken)
     {
@@ -26,7 +26,7 @@ public class AlertingTopologyBuilder(ITopologyBuilder topologyBuilder, IMessageP
             
             await topologyBuilder.CreateTopologyAsync(
                 publisherDestination,
-                AlertsExchange,
+                AlertsTopic,
                 TopologyType.PublisherToPublisher,
                 filter: routingKey,
                 cancellationToken: cancellationToken);

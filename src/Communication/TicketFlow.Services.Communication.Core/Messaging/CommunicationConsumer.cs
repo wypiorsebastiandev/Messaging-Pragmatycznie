@@ -26,7 +26,7 @@ public class CommunicationConsumer(IMessageConsumer messageConsumer, AnomalySync
         await messageConsumer
             .ConsumeMessage<ProducerAgnosticAlertMessage>(
                 queue: AzureServiceBusConventions.ForTopicAndSubscription(
-                    AlertingTopologyBuilder.AlertsExchange,
+                    AlertingTopologyBuilder.AlertsTopic,
                     AlertsQueue),
                 acceptedMessageTypes: null, /* Accept all of them */
                 cancellationToken: stoppingToken);
