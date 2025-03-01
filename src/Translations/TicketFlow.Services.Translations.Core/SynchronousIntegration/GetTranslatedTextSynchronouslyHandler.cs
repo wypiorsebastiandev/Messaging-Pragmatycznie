@@ -7,7 +7,7 @@ internal sealed class GetTranslatedTextSynchronouslyHandler(ITranslationsService
 {
     public async Task<string> HandleAsync(GetTranslatedTextSynchronously query, CancellationToken cancellationToken = default)
     {
-        var translatedText = await translationsService.TranslateAsync(query.Text, default, "en", cancellationToken);
+        var translatedText = await translationsService.TranslateAsync(query.Text, "en", cancellationToken);
         return translatedText;
     }
 }

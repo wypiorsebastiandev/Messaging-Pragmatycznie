@@ -15,14 +15,7 @@ public class TranslationTopologyInitializer : TopologyInitializerBase
         
         await topologyBuilder.CreateTopologyAsync(
             publisherSource: "",
-            consumerDestination: "request-translation-v1-queue",
-            TopologyType.Direct,
-            cancellationToken: stoppingToken
-        );
-        
-        await topologyBuilder.CreateTopologyAsync(
-            publisherSource: "",
-            consumerDestination: "request-translation-v2-queue",
+            consumerDestination: "request-translation-queue",
             TopologyType.Direct,
             cancellationToken: stoppingToken
         );
