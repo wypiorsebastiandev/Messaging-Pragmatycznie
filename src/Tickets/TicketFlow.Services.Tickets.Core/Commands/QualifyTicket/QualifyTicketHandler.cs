@@ -3,6 +3,7 @@ using TicketFlow.CourseUtils;
 using TicketFlow.Services.Tickets.Core.Data.Models;
 using TicketFlow.Services.Tickets.Core.Data.Repositories;
 using TicketFlow.Services.Tickets.Core.Messaging.Publishing;
+using TicketFlow.Services.Tickets.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.Commands;
 using TicketFlow.Shared.Exceptions;
 using TicketFlow.Shared.Messaging;
@@ -37,14 +38,18 @@ internal sealed class QualifyTicketHandler(ITicketsRepository repository, IMessa
     private async Task PublishIncidentCreated(CancellationToken cancellationToken, Ticket ticket)
     {
         var incidentCreatedMessage = new IncidentCreated(ticket.Id, ticket.Version);
-        await publisher.PublishAsync(incidentCreatedMessage, cancellationToken: cancellationToken);
+        await publisher.PublishAsync(
+            incidentCreatedMessage,
+            destination: TicketsMessagePublisherConventionProvider.TopicName,
+            cancellationToken: cancellationToken);
     }
 
     private async Task PublishTicketQualified(QualifyTicket command, CancellationToken cancellationToken, Ticket ticket)
     {
         var ticketStatusChanged = new TicketQualified(command.TicketId, ticket.Version);
         await publisher.PublishAsync(
-            message: ticketStatusChanged, 
+            message: ticketStatusChanged,
+            destination: TicketsMessagePublisherConventionProvider.TopicName,
             routingKey: "ticket-qualified", 
             cancellationToken: cancellationToken);
     }

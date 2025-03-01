@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TicketFlow.Services.Translations.Core.Messaging.Consuming.RequestTranslation;
 using TicketFlow.Shared.Messaging.Topology;
 
 namespace TicketFlow.Services.Translations.Core.Messaging;
@@ -15,16 +16,15 @@ public class TranslationTopologyInitializer : TopologyInitializerBase
         
         await topologyBuilder.CreateTopologyAsync(
             publisherSource: "",
-            consumerDestination: "request-translation-v1-queue",
+            consumerDestination: TranslationsConsumerService.RequestTranslationV2Queue,
             TopologyType.Direct,
             cancellationToken: stoppingToken
         );
         
         await topologyBuilder.CreateTopologyAsync(
-            publisherSource: "",
-            consumerDestination: "request-translation-v2-queue",
-            TopologyType.Direct,
-            cancellationToken: stoppingToken
-        );
+            publisherSource: RequestTranslationHandler.TranslationCompletedTopic,
+            consumerDestination: "", // As publisher, we are consumer-ignorant
+            TopologyType.PublishSubscribe,
+            cancellationToken: stoppingToken);
     }
 }

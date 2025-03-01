@@ -21,6 +21,7 @@ using TicketFlow.Shared.Commands;
 using TicketFlow.Shared.Data;
 using TicketFlow.Shared.Exceptions;
 using TicketFlow.Shared.Messaging;
+using TicketFlow.Shared.Messaging.AzureServiceBus;
 using TicketFlow.Shared.Messaging.Deduplication;
 using TicketFlow.Shared.Messaging.Ordering.OutOfOrderDetection;
 using TicketFlow.Shared.Messaging.Outbox;
@@ -47,7 +48,7 @@ public static class Extensions
             .AddQueries()
             .AddLogging()
             .AddMessaging(configuration, x => x
-                .UseRabbitMq()
+                .UseAzureServiceBus()
                 .UseMessagePublisherConvention<SLAMessagePublisherConventionProvider>()
                 .UseMessageConsumerConvention<DontUseConventionalTopology>()
                 .UseDeduplication()

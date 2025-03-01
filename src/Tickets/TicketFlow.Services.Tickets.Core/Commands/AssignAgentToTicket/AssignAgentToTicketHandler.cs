@@ -4,6 +4,7 @@ using TicketFlow.Services.Tickets.Core.Data.Models;
 using TicketFlow.Services.Tickets.Core.Data.Repositories;
 using TicketFlow.Services.Tickets.Core.Initializers;
 using TicketFlow.Services.Tickets.Core.Messaging.Publishing;
+using TicketFlow.Services.Tickets.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.Commands;
 using TicketFlow.Shared.Exceptions;
 using TicketFlow.Shared.Messaging;
@@ -33,7 +34,8 @@ internal sealed class AssignAgentToTicketHandler(ITicketsRepository repository, 
     {
         var ticketStatusChanged = new AgentAssignedToTicket(command.TicketId, ticket.Version);
         await publisher.PublishAsync(
-            message: ticketStatusChanged, 
+            message: ticketStatusChanged,
+            destination: TicketsMessagePublisherConventionProvider.TopicName,
             routingKey: "agent-assigned", 
             cancellationToken: cancellationToken);
     }

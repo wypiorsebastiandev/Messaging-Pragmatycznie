@@ -5,10 +5,10 @@ namespace TicketFlow.Services.SLA.Core.Messaging.Publishing.Conventions;
 
 internal sealed class SLAMessagePublisherConventionProvider : IMessagePublisherConventionProvider
 {
-    public const string ExchangeName = "sla-exchange";
+    public const string TopicName = "sla-exchange";
     
     public (string destination, string routingKey) Get<TMessage>() where TMessage : class, IMessage 
-        => (ExchangeName, PascalToKebabCase(typeof(TMessage).Name).WithAlertingApplied<TMessage>());
+        => (TopicName, PascalToKebabCase(typeof(TMessage).Name).WithAlertingApplied<TMessage>());
 
     private static string PascalToKebabCase(string str)
     {

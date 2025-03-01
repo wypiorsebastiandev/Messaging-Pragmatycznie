@@ -2,6 +2,7 @@
 using TicketFlow.Services.Tickets.Core.Data.Models;
 using TicketFlow.Services.Tickets.Core.Data.Repositories;
 using TicketFlow.Services.Tickets.Core.Messaging.Publishing;
+using TicketFlow.Services.Tickets.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.Commands;
 using TicketFlow.Shared.Exceptions;
 using TicketFlow.Shared.Messaging;
@@ -31,7 +32,8 @@ public class BlockTicketHandler(ITicketsRepository repository, IMessagePublisher
     {
         var ticketStatusChangedMessage = new TicketBlocked(command.TicketId, ticket.Version);
         await publisher.PublishAsync(
-            message: ticketStatusChangedMessage, 
+            message: ticketStatusChangedMessage,
+            destination: TicketsMessagePublisherConventionProvider.TopicName,
             routingKey: "ticket-blocked", 
             cancellationToken: cancellationToken);
     }

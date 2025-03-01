@@ -3,6 +3,7 @@ using TicketFlow.CourseUtils;
 using TicketFlow.Services.Tickets.Core.Data.Models;
 using TicketFlow.Services.Tickets.Core.Data.Repositories;
 using TicketFlow.Services.Tickets.Core.Messaging.Publishing;
+using TicketFlow.Services.Tickets.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.Commands;
 using TicketFlow.Shared.Exceptions;
 using TicketFlow.Shared.Messaging;
@@ -33,6 +34,7 @@ internal sealed class ResolveTicketHandler(ITicketsRepository repository, IMessa
         var ticketStatusChanged = new TicketResolved(command.TicketId, ticket.Version);
         await publisher.PublishAsync(
             message: ticketStatusChanged, 
+            destination: TicketsMessagePublisherConventionProvider.TopicName,
             routingKey: "ticket-resolved", 
             cancellationToken: cancellationToken);
     }

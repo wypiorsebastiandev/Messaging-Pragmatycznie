@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using TicketFlow.Services.SLA.Core.Data.Repositories;
 using TicketFlow.Services.SLA.Core.Http.Communication;
 using TicketFlow.Services.SLA.Core.Messaging.Publishing;
+using TicketFlow.Services.SLA.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.Messaging;
 
 namespace TicketFlow.Services.SLA.Core.Schedulers;
@@ -46,7 +47,10 @@ public class DeadlineBreachWatcher(
             {
                 deadline.MarkDeadlineBreachAlertSent();
                 /* Explicit decision to use CancellationToken.None - email was already sent so it's better to "force save" */
-                await messagePublisher.PublishAsync(new SLABreached(deadline.ServiceType, deadline.ServiceSourceId), cancellationToken: CancellationToken.None);
+                await messagePublisher.PublishAsync(
+                    new SLABreached(deadline.ServiceType, deadline.ServiceSourceId), 
+                    destination: SLAMessagePublisherConventionProvider.TopicName,
+                    cancellationToken: CancellationToken.None);
 
                 if (deadline.UserIdToRemind.HasValue)
                 {

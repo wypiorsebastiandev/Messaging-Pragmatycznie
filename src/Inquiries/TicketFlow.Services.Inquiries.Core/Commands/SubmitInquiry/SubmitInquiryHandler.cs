@@ -12,6 +12,8 @@ internal sealed class SubmitInquiryHandler(IInquiriesRepository repository, ILan
     IMessagePublisher messagePublisher, ILogger<SubmitInquiryHandler> logger) : ICommandHandler<SubmitInquiry>
 {
     private const string EnglishLanguageCode = "en";
+    public const string TargetTopicName = "inquiry-submitted-exchange";
+    
     public async Task HandleAsync(SubmitInquiry command, CancellationToken cancellationToken = default)
     {
         var (name, email, title, description, category) = command;
@@ -30,16 +32,13 @@ internal sealed class SubmitInquiryHandler(IInquiriesRepository repository, ILan
             inquiry.Category.ToString(),
             languageCode,
             inquiry.CreatedAt);
-        await messagePublisher.PublishAsync(inquiryReportedMessage, cancellationToken: cancellationToken);
+        await messagePublisher.PublishAsync(inquiryReportedMessage, TargetTopicName, cancellationToken: cancellationToken);
         
         logger.LogInformation($"Inquiry with id: {inquiry.Id} submitted successfully.");
         
         if (languageCode is not EnglishLanguageCode)
         {
-            var requestTranslationV1 = new RequestTranslationV1(inquiry.Description, inquiry.Id);
             var requestTranslationV2 = new RequestTranslationV2(inquiry.Description, languageCode, inquiry.Id);
-            
-            await messagePublisher.PublishAsync(requestTranslationV1, destination: "", routingKey: "request-translation-v1-queue", cancellationToken: cancellationToken);
             await messagePublisher.PublishAsync(requestTranslationV2, destination: "", routingKey: "request-translation-v2-queue", cancellationToken: cancellationToken);
             
             logger.LogInformation($"Translation for inquiry with id: {inquiry.Id} has been requested.");

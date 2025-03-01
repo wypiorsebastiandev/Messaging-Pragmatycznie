@@ -7,13 +7,13 @@ namespace TicketFlow.Shared.AnomalyGeneration.MessagingApi;
 
 public class AnomalyTopologyBuilder(ITopologyBuilder topologyBuilder, IOptions<AppOptions> appOptions)
 {
-    public const string AnomaliesExchange = "anomalies-sync";
-    public static string AnomaliesAppExclusiveQueuePrefix(AppOptions opts) => "anomalies-sync-" + opts.AppName + "-" + opts.InstanceId;
+    public const string AnomaliesTopic = "anomalies-sync";
+    public static string AnomaliesAppExclusiveQueuePrefix(AppOptions opts) => $"anomalies-sync-{opts.AppName}-{opts.InstanceId}".Substring(0, 50);
     
     public async Task CreateTopologyAsync(CancellationToken cancellationToken)
     {
         await topologyBuilder.CreateTopologyAsync(
-            AnomaliesExchange,
+            AnomaliesTopic,
             AnomaliesAppExclusiveQueuePrefix(appOptions.Value),
             TopologyType.PublishSubscribe,
             filter: appOptions.Value.AppName,

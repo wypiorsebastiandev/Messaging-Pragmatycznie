@@ -9,6 +9,7 @@ using TicketFlow.Shared.App;
 using TicketFlow.Shared.Commands;
 using TicketFlow.Shared.Exceptions;
 using TicketFlow.Shared.Messaging;
+using TicketFlow.Shared.Messaging.AzureServiceBus;
 using TicketFlow.Shared.Messaging.RabbitMQ;
 using TicketFlow.Shared.Messaging.Resiliency;
 using TicketFlow.Shared.Queries;
@@ -28,7 +29,7 @@ public static class Extensions
             .AddQueries()
             .AddLogging()
             .AddMessaging(configuration, x => x
-                .UseRabbitMq()
+                .UseAzureServiceBus()
                 .UseAnomalies()
                 .UseResiliency());
 

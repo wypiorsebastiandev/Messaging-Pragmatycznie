@@ -3,6 +3,7 @@ using TicketFlow.Services.SLA.Core.Data.Models;
 using TicketFlow.Services.SLA.Core.Data.Repositories;
 using TicketFlow.Services.SLA.Core.Http.Tickets;
 using TicketFlow.Services.SLA.Core.Messaging.Publishing;
+using TicketFlow.Services.SLA.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.Exceptions;
 using TicketFlow.Shared.Messaging;
 
@@ -73,6 +74,7 @@ public class TicketService
                         deadlineReminders.ServiceType,
                         deadlineReminders.ServiceSourceId,
                         deadlineReminders.DeadlineDateUtc),
+                    destination: SLAMessagePublisherConventionProvider.TopicName,
                     cancellationToken: cancellationToken);
             }
         }

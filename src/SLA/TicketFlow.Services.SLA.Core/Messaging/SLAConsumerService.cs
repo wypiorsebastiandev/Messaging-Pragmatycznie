@@ -7,6 +7,7 @@ using TicketFlow.Services.SLA.Core.Messaging.Consuming.Demultiplexing;
 using TicketFlow.Services.SLA.Core.Messaging.Consuming.Partitioning;
 using TicketFlow.Shared.AnomalyGeneration.MessagingApi;
 using TicketFlow.Shared.Messaging;
+using TicketFlow.Shared.Messaging.AzureServiceBus;
 
 namespace TicketFlow.Services.SLA.Core.Messaging;
 
@@ -16,6 +17,7 @@ public class SLAConsumerService(
     IServiceProvider serviceProvider,
     TicketChangesPartitioningSetup ticketChangesPartitioning) : BackgroundService
 {
+    public const string TicketsExchange  = "tickets-exchange";
     public const string TicketChangesQueue = "sla-ticket-changes";
     public const string TicketQualifiedQueue = "sla-ticket-qualified";
     public const string AgentAssignedQueue = "sla-agent-assigned";
@@ -28,17 +30,23 @@ public class SLAConsumerService(
         {
             await messageConsumer
                 .ConsumeMessage<TicketQualified>(
-                    queue: TicketQualifiedQueue,
+                    queue: AzureServiceBusConventions.ForTopicAndSubscription(
+                        TicketsExchange,
+                        TicketQualifiedQueue),
                     cancellationToken: stoppingToken);
 
             await messageConsumer
                 .ConsumeMessage<AgentAssignedToTicket>(
-                    queue: AgentAssignedQueue,
+                    queue: AzureServiceBusConventions.ForTopicAndSubscription(
+                        TicketsExchange, 
+                        AgentAssignedQueue),
                     cancellationToken: stoppingToken);
             
             await messageConsumer
                 .ConsumeMessage<TicketResolved>(
-                    queue: TicketResolvedQueue,
+                    queue: AzureServiceBusConventions.ForTopicAndSubscription(
+                        TicketsExchange,
+                        TicketResolvedQueue),
                     cancellationToken: stoppingToken);
         }
         #endregion
@@ -53,7 +61,9 @@ public class SLAConsumerService(
                         var logger = serviceProvider.GetService<ILogger<SLAConsumerService>>();
                         await demultiplexingHandler.HandleAsync(messageData, stoppingToken);
                     },
-                    queue: TicketChangesQueue,
+                    queue: AzureServiceBusConventions.ForTopicAndSubscription(
+                        TicketsExchange,
+                        TicketChangesQueue),
                     acceptedMessageTypes: ["TicketQualified", "AgentAssignedToTicket", "TicketBlocked", "TicketResolved"],
                     cancellationToken: stoppingToken);
         }
@@ -70,7 +80,9 @@ public class SLAConsumerService(
                         var logger = serviceProvider.GetService<ILogger<SLAConsumerService>>();
                         await demultiplexingHandler.HandleAsync(messageData, stoppingToken);
                     },
-                    queue: TicketChangesQueue,
+                    queue: AzureServiceBusConventions.ForTopicAndSubscription(
+                        TicketsExchange,
+                        TicketChangesQueue),
                     acceptedMessageTypes: ["TicketQualified", "AgentAssignedToTicket", "TicketBlocked", "TicketResolved"],
                     cancellationToken: stoppingToken);
         }

@@ -10,8 +10,7 @@ using TicketFlow.Shared.App;
 using TicketFlow.Shared.Commands;
 using TicketFlow.Shared.Data;
 using TicketFlow.Shared.Messaging;
-using TicketFlow.Shared.Messaging.Deduplication;
-using TicketFlow.Shared.Messaging.Outbox;
+using TicketFlow.Shared.Messaging.AzureServiceBus;
 using TicketFlow.Shared.Messaging.RabbitMQ;
 using TicketFlow.Shared.Messaging.Resiliency;
 using TicketFlow.Shared.Messaging.Topology;
@@ -35,7 +34,7 @@ public static class Extensions
             .AddQueries()
             .AddLogging()
             .AddMessaging(configuration, x => x
-                .UseRabbitMq()
+                .UseAzureServiceBus()
                 .UseMessageConsumerConvention<DontUseConventionalTopology>()
                 .UseAnomalies()
                 .UseResiliency())

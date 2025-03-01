@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using TicketFlow.Shared.AnomalyGeneration.HttpApi;
 using TicketFlow.Shared.App;
 using TicketFlow.Shared.Messaging;
+using TicketFlow.Shared.Messaging.AzureServiceBus;
 
 namespace TicketFlow.Shared.AnomalyGeneration.MessagingApi;
 
@@ -36,7 +37,9 @@ public class AnomalySynchronizationConfigurator(
                     
                     return Task.CompletedTask;
                 },
-                queue: AnomalyTopologyBuilder.AnomaliesAppExclusiveQueuePrefix(appOptions.Value),
+                queue: AzureServiceBusConventions.ForTopicAndSubscription(
+                    AnomalyTopologyBuilder.AnomaliesTopic,
+                    AnomalyTopologyBuilder.AnomaliesAppExclusiveQueuePrefix(appOptions.Value)),
                 acceptedMessageTypes: null, /* All of them */
                 cancellationToken: CancellationToken.None);
     }

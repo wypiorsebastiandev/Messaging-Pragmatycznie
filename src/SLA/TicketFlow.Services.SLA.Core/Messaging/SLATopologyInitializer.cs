@@ -26,16 +26,16 @@ public class SLATopologyInitializer : TopologyInitializerBase
         var topologyBuilder = ServiceProvider.GetService<ITopologyBuilder>();
         
         await topologyBuilder.CreateTopologyAsync(
-            publisherSource: SLAMessagePublisherConventionProvider.ExchangeName,
+            publisherSource: SLAMessagePublisherConventionProvider.TopicName,
             consumerDestination: "", // As publisher, we are consumer-ignorant
             TopologyType.PublishSubscribe,
             cancellationToken: stoppingToken
         );
-
+        
         if (FeatureFlags.UseTopicPerTypeExample)
         {
             await topologyBuilder.CreateTopologyAsync(
-                publisherSource: "tickets-exchange",
+                publisherSource: SLAConsumerService.TicketsExchange,
                 consumerDestination: SLAConsumerService.TicketQualifiedQueue,
                 TopologyType.PublishSubscribe,
                 filter: "ticket-qualified",
@@ -43,7 +43,7 @@ public class SLATopologyInitializer : TopologyInitializerBase
             );
             
             await topologyBuilder.CreateTopologyAsync(
-                publisherSource: "tickets-exchange",
+                publisherSource: SLAConsumerService.TicketsExchange,
                 consumerDestination: SLAConsumerService.AgentAssignedQueue,
                 TopologyType.PublishSubscribe,
                 filter: "agent-assigned",
@@ -51,7 +51,7 @@ public class SLATopologyInitializer : TopologyInitializerBase
             );
             
             await topologyBuilder.CreateTopologyAsync(
-                publisherSource: "tickets-exchange",
+                publisherSource: SLAConsumerService.TicketsExchange,
                 consumerDestination: SLAConsumerService.TicketResolvedQueue,
                 TopologyType.PublishSubscribe,
                 filter: "ticket-resolved",
@@ -61,7 +61,7 @@ public class SLATopologyInitializer : TopologyInitializerBase
         else if (FeatureFlags.UsePartitioningExample is false)
         {
             await topologyBuilder.CreateTopologyAsync(
-                publisherSource: "tickets-exchange",
+                publisherSource: SLAConsumerService.TicketsExchange,
                 consumerDestination: SLAConsumerService.TicketChangesQueue,
                 TopologyType.PublishSubscribe,
                 cancellationToken: stoppingToken
@@ -71,7 +71,7 @@ public class SLATopologyInitializer : TopologyInitializerBase
         {
             var ticketStatusPartitionOpts = ServiceProvider.GetService<TicketChangesPartitioningSetup>();
             await topologyBuilder.CreateTopologyAsync(
-                publisherSource: "tickets-exchange",
+                publisherSource: SLAConsumerService.TicketsExchange,
                 consumerDestination: SLAConsumerService.TicketChangesQueue,
                 TopologyType.PublishSubscribe,
                 partitioningOptions: ticketStatusPartitionOpts.PartitioningOptions,

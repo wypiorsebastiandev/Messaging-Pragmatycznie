@@ -24,23 +24,35 @@ public class TicketsTopologyInitializer : TopologyInitializerBase
         var topologyBuilder = ServiceProvider.GetService<ITopologyBuilder>();
         
         await topologyBuilder.CreateTopologyAsync(
-            publisherSource: TicketsMessagePublisherConventionProvider.ExchangeName,
+            publisherSource: TicketsConsumerService.InquirySubmittedTopic,
+            consumerDestination: TicketsConsumerService.InquirySubmittedSubscription,
+            TopologyType.PublishSubscribe,
+            cancellationToken: stoppingToken);
+        
+        await topologyBuilder.CreateTopologyAsync(
+            publisherSource: TicketsConsumerService.TranslationCompletedTopic,
+            consumerDestination: TicketsConsumerService.TranslationCompletedSubscription,
+            TopologyType.PublishSubscribe,
+            cancellationToken: stoppingToken);
+        
+        await topologyBuilder.CreateTopologyAsync(
+            publisherSource: TicketsMessagePublisherConventionProvider.TopicName,
             consumerDestination: "", // As publisher, we are consumer-ignorant
             TopologyType.PublishSubscribe,
             cancellationToken: stoppingToken
         );
 
         await topologyBuilder.CreateTopologyAsync(
-            publisherSource: "sla-exchange",
-            consumerDestination: TicketsConsumerService.SLAChangesQueue,
+            publisherSource: TicketsConsumerService.SLATopic,
+            consumerDestination: TicketsConsumerService.SLAChangesSubscription,
             TopologyType.PublishSubscribe,
             cancellationToken: stoppingToken);
 
         if (FeatureFlags.UseListenToYourselfExample)
         {
             await topologyBuilder.CreateTopologyAsync(
-                publisherSource: TicketsMessagePublisherConventionProvider.ExchangeName,
-                consumerDestination: TicketsConsumerService.TicketCreatedQueue,
+                publisherSource: TicketsMessagePublisherConventionProvider.TopicName,
+                consumerDestination: TicketsConsumerService.TicketCreatedSubscription,
                 TopologyType.PublishSubscribe,
                 cancellationToken: stoppingToken);
         }

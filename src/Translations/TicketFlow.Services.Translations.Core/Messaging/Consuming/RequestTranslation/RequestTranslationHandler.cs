@@ -7,6 +7,8 @@ namespace TicketFlow.Services.Translations.Core.Messaging.Consuming.RequestTrans
 internal sealed class RequestTranslationHandler(ITranslationsService translationsService, IMessagePublisher messagePublisher) 
     : IMessageHandler<RequestTranslationV1>, IMessageHandler<RequestTranslationV2>
 {
+    public const string TranslationCompletedTopic = "translation-completed-exchange";
+
     public Task HandleAsync(RequestTranslationV1 message, CancellationToken cancellationToken = default)
         => HandleAsync(message.Text, default, TranslationLanguage.English, message.TicketId, cancellationToken);
 
@@ -20,11 +22,11 @@ internal sealed class RequestTranslationHandler(ITranslationsService translation
         if (string.IsNullOrWhiteSpace(translatedText))
         {
             var translationSkippedMessage = new TranslationSkipped(text, referenceId);
-            await messagePublisher.PublishAsync(translationSkippedMessage, destination: "translation-completed-exchange", cancellationToken: cancellationToken);
+            await messagePublisher.PublishAsync(translationSkippedMessage, destination: TranslationCompletedTopic, cancellationToken: cancellationToken);
             return;
         }
         
         var translationCompletedMessage = new TranslationCompleted(text, translatedText, referenceId);
-        await messagePublisher.PublishAsync(translationCompletedMessage, destination: "translation-completed-exchange", cancellationToken: cancellationToken);
+        await messagePublisher.PublishAsync(translationCompletedMessage, destination: TranslationCompletedTopic, cancellationToken: cancellationToken);
     }
 }

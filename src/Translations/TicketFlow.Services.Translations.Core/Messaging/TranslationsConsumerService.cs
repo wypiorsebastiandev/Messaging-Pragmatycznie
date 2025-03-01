@@ -6,9 +6,10 @@ namespace TicketFlow.Services.Translations.Core.Messaging;
 
 internal sealed class TranslationsConsumerService(IMessageConsumer messageConsumer) : BackgroundService
 {
+    public const string RequestTranslationV2Queue = "request-translation-v2-queue";
+
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        //messageConsumer.ConsumeMessage<RequestTranslationV1>(queue: "request-translation-v1-queue", cancellationToken: cancellationToken);
-        await messageConsumer.ConsumeMessage<RequestTranslationV2>(queue: "request-translation-v2-queue", cancellationToken: cancellationToken);
+        await messageConsumer.ConsumeMessage<RequestTranslationV2>(queue: RequestTranslationV2Queue, cancellationToken: cancellationToken);
     }
 }

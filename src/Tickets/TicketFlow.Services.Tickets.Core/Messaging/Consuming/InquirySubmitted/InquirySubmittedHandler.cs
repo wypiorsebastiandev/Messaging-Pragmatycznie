@@ -1,6 +1,7 @@
 using TicketFlow.CourseUtils;
 using TicketFlow.Services.Tickets.Core.Data.Models;
 using TicketFlow.Services.Tickets.Core.Data.Repositories;
+using TicketFlow.Services.Tickets.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.Messaging;
 
 namespace TicketFlow.Services.Tickets.Core.Messaging.Consuming.InquirySubmitted;
@@ -59,7 +60,10 @@ public sealed class InquirySubmittedHandler(ITicketsRepository repository, IMess
             Category: ticket.Category.ToString(),
             LanguageCode: ticket.LanguageCode);
         
-        await messagePublisher.PublishAsync(ticketCreatedMessage, cancellationToken: cancellationToken);
+        await messagePublisher.PublishAsync(
+            ticketCreatedMessage, 
+            destination: TicketsMessagePublisherConventionProvider.TopicName,
+            cancellationToken: cancellationToken);
     }
     
     private async Task HandleWithListenToYourself(InquirySubmitted message, CancellationToken cancellationToken)
@@ -100,6 +104,9 @@ public sealed class InquirySubmittedHandler(ITicketsRepository repository, IMess
             Category: ticket.Category.ToString(),
             LanguageCode: ticket.LanguageCode);
         
-        await messagePublisher.PublishAsync(ticketCreatedMessage, cancellationToken: cancellationToken);
+        await messagePublisher.PublishAsync(
+            ticketCreatedMessage, 
+            destination: TicketsMessagePublisherConventionProvider.TopicName,
+            cancellationToken: cancellationToken);
     }
 }

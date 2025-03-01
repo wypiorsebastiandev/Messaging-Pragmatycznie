@@ -21,7 +21,7 @@ public class CommunicationTopologyInitializer : TopologyInitializerBase
         var topologyBuilder = ServiceProvider.GetService<ITopologyBuilder>();
         
         await topologyBuilder.CreateTopologyAsync(
-            publisherSource: "tickets-exchange",
+            publisherSource: CommunicationConsumer.TicketsTopic,
             consumerDestination: CommunicationConsumer.TicketResolvedQueue,
             TopologyType.PublishSubscribe,
             filter: "ticket-resolved",

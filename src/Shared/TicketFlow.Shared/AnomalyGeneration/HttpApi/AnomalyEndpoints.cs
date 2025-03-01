@@ -30,7 +30,7 @@ public static class AnomalyEndpoints
             var publisher = publishers.FirstOrDefault(x => !x.GetType().Name.Contains("Outbox"));
             await publisher.PublishAsync(
                 message: AnomalyEnabled.FromRequest(request).Wrapped(), 
-                destination: AnomalyTopologyBuilder.AnomaliesExchange,
+                destination: AnomalyTopologyBuilder.AnomaliesTopic,
                 routingKey: appOptions.Value.AppName);
         });
         
@@ -48,7 +48,7 @@ public static class AnomalyEndpoints
             var publisher = publishers.FirstOrDefault(x => !x.GetType().Name.Contains("Outbox"));
             await publisher.PublishAsync(
                 message: new AnomalyDisabled(anomalyParsed, messageType).Wrapped(), 
-                destination: AnomalyTopologyBuilder.AnomaliesExchange,
+                destination: AnomalyTopologyBuilder.AnomaliesTopic,
                 routingKey: appOptions.Value.AppName);
         });
     }

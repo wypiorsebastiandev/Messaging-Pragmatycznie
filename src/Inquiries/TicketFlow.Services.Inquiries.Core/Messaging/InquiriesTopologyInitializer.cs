@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using TicketFlow.Services.Inquiries.Core.Commands.SubmitInquiry;
 using TicketFlow.Shared.AnomalyGeneration.MessagingApi;
 using TicketFlow.Shared.App;
 using TicketFlow.Shared.Messaging;
@@ -20,7 +21,14 @@ public class InquiriesTopologyInitializer : TopologyInitializerBase
         var topologyBuilder = ServiceProvider.GetService<ITopologyBuilder>();
         
         await topologyBuilder.CreateTopologyAsync(
-            publisherSource: "tickets-exchange",
+            publisherSource: SubmitInquiryHandler.TargetTopicName,
+            consumerDestination: "", // As publisher, we are consumer-ignorant
+            TopologyType.PublishSubscribe,
+            cancellationToken: stoppingToken
+        );
+        
+        await topologyBuilder.CreateTopologyAsync(
+            publisherSource: InquiriesConsumerService.TicketsTopic,
             consumerDestination: InquiriesConsumerService.TicketCreatedQueue,
             TopologyType.PublishSubscribe,
             filter: "ticket-created",
