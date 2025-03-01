@@ -58,7 +58,7 @@ public class LiveMetricsHub(IMessageConsumer messageConsumer, ITopologyBuilder t
             TopologyType.PublishSubscribe,
             consumerCustomArgs: new Dictionary<string, object>
             {
-                { "x-expires", 1000 * 60 * 1 } // Delete queue if no one is listening after 1min
+                { "x-expires", 1000 * 60 * 10 } // Delete queue if no one is listening after 10min
             }
         ).GetAwaiter().GetResult();
     }
