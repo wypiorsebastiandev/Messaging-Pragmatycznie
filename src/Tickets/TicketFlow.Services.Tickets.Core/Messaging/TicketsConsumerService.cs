@@ -16,13 +16,6 @@ internal sealed class TicketsConsumerService(IMessageConsumer messageConsumer, A
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await messageConsumer.ConsumeMessage<InquirySubmitted>();
-        await messageConsumer.ConsumeMessage<TranslationCompleted>();
-        await messageConsumer.ConsumeMessage<DeadlinesCalculated>(queue: SLAChangesQueue, acceptedMessageTypes: ["DeadlinesCalculated"]);
-        if (FeatureFlags.UseListenToYourselfExample)
-        {
-            await messageConsumer.ConsumeMessage<TicketCreated>(queue: TicketCreatedQueue, acceptedMessageTypes: ["TicketCreated"]);
-        }
-        await anomalyConfigurator.ConsumeAnomalyChanges();
+        await messageConsumer.ConsumeMessage<InquirySubmitted>(queue: "inquiry-submitted-tickets-service-queue");
     }
 }

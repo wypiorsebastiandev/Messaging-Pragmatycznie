@@ -61,6 +61,11 @@ internal sealed class RabbitMqMessagePublisher(ChannelFactory channelFactory, IM
         if (reliablePublishing.UsePublisherConfirms)
         {
             channel.ConfirmSelect();
+            channel.BasicNacks += (sender, args) =>
+            {
+                Console.WriteLine(
+                    $"Message {typeof(TMessage).Name}, id: {messageId} was not accepted by broker!");
+            };
         }
 
         if (reliablePublishing.ShouldPublishAsMandatory<TMessage>())
@@ -68,6 +73,12 @@ internal sealed class RabbitMqMessagePublisher(ChannelFactory channelFactory, IM
             channel.BasicReturn += (s, args) =>
             {
                 Console.WriteLine($"Message {typeof(TMessage).Name}, id: {messageId} was not routed properly to any consumer!)");
+                // channel.BasicPublish(
+                //     exchange: args.Exchange,
+                //     routingKey: args.RoutingKey,
+                //     basicProperties: args.BasicProperties,
+                //     body: args.Body,
+                //     mandatory: true);
             };
         }
     }
