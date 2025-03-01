@@ -53,6 +53,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Services.Inquiri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Services.Translations.IntegrationTests", "tests\Translations\TicketFlow.Services.Translations.IntegrationTests\TicketFlow.Services.Translations.IntegrationTests.csproj", "{0153A7C4-04A0-47D6-963E-95558FFE0B91}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_KafkaPlaground", "_KafkaPlaground", "{C27E21F6-CC47-4F6E-8C7B-7C52F61496BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.KafkaPlayground.Producer", "src\_KafkaPlayground\TicketFlow.KafkaPlayground.Producer\TicketFlow.KafkaPlayground.Producer.csproj", "{6745E177-F39C-43C1-B918-C18274E031F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.KafkaPlayground.Consumer", "src\_KafkaPlayground\TicketFlow.KafkaPlayground.Consumer\TicketFlow.KafkaPlayground.Consumer.csproj", "{EA8C725F-E190-48A0-A122-FC99C27798BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.KafkaPlayground.Shared", "src\_KafkaPlayground\TicketFlow.KafkaPlayground.Shared\TicketFlow.KafkaPlayground.Shared.csproj", "{5DB1CD50-DAB1-4492-845B-DAEABCA6CA97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +88,9 @@ Global
 		{B569981C-50EB-49D7-A445-FDF1F62D7DD3} = {B106A5A0-3379-4C18-9A42-58B6A64EE99B}
 		{7BB0714A-0C7B-4190-BD0E-7B5BCE90D752} = {18C31847-2E70-451C-B608-22E64CCDC1A8}
 		{0153A7C4-04A0-47D6-963E-95558FFE0B91} = {22569C41-4C87-4AB6-8F1A-DF86F51A3E58}
+		{6745E177-F39C-43C1-B918-C18274E031F5} = {C27E21F6-CC47-4F6E-8C7B-7C52F61496BC}
+		{EA8C725F-E190-48A0-A122-FC99C27798BD} = {C27E21F6-CC47-4F6E-8C7B-7C52F61496BC}
+		{5DB1CD50-DAB1-4492-845B-DAEABCA6CA97} = {C27E21F6-CC47-4F6E-8C7B-7C52F61496BC}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{425D58FD-4433-4607-91F1-2FD1955A025E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -154,5 +165,17 @@ Global
 		{0153A7C4-04A0-47D6-963E-95558FFE0B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0153A7C4-04A0-47D6-963E-95558FFE0B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0153A7C4-04A0-47D6-963E-95558FFE0B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6745E177-F39C-43C1-B918-C18274E031F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6745E177-F39C-43C1-B918-C18274E031F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6745E177-F39C-43C1-B918-C18274E031F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6745E177-F39C-43C1-B918-C18274E031F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA8C725F-E190-48A0-A122-FC99C27798BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA8C725F-E190-48A0-A122-FC99C27798BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA8C725F-E190-48A0-A122-FC99C27798BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8C725F-E190-48A0-A122-FC99C27798BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DB1CD50-DAB1-4492-845B-DAEABCA6CA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DB1CD50-DAB1-4492-845B-DAEABCA6CA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DB1CD50-DAB1-4492-845B-DAEABCA6CA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB1CD50-DAB1-4492-845B-DAEABCA6CA97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
