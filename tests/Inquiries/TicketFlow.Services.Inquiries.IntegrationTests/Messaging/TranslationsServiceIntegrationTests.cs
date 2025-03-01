@@ -15,7 +15,7 @@ public class TranslationsServiceIntegrationTests : IAsyncLifetime
 {
     private readonly MessagingIntegrationTestProvider<Program> _messagingTestProvider;
    
-    private const string QueueV1 = "request-translation-v1-queue";
+    private const string QueueV1 = "request-translation-queue";
     private const string QueueV2 = "request-translation-v2-queue";
 
     public TranslationsServiceIntegrationTests()

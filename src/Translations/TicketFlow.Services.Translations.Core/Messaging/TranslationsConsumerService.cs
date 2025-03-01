@@ -8,7 +8,7 @@ internal sealed class TranslationsConsumerService(IMessageConsumer messageConsum
 {
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        //messageConsumer.ConsumeMessage<RequestTranslationV1>(queue: "request-translation-v1-queue", cancellationToken: cancellationToken);
+        await messageConsumer.ConsumeMessage<RequestTranslationV1>(queue: "request-translation-queue", cancellationToken: cancellationToken);
         await messageConsumer.ConsumeMessage<RequestTranslationV2>(queue: "request-translation-v2-queue", cancellationToken: cancellationToken);
     }
 }

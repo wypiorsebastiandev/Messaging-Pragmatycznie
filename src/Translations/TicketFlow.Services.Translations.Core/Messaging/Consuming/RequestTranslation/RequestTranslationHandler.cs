@@ -11,7 +11,7 @@ internal sealed class RequestTranslationHandler(ITranslationsService translation
         => HandleAsync(message.Text, default, TranslationLanguage.English, message.TicketId, cancellationToken);
 
     public Task HandleAsync(RequestTranslationV2 message, CancellationToken cancellationToken = default)
-        => HandleAsync(message.Text, message.LanguageCode, TranslationLanguage.English, message.ReferenceId, cancellationToken);
+        => HandleAsync(message.Text, message.TranslateFrom, TranslationLanguage.English, message.ReferenceId, cancellationToken);
     
     private async Task HandleAsync(string text, string translateFrom, string languageCode, Guid referenceId, CancellationToken cancellationToken = default)
     {
