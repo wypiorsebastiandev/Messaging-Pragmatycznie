@@ -2,6 +2,10 @@ namespace TicketFlow.Services.Translations.Core.Translations;
 
 internal sealed class NoopTranslationsService : ITranslationsService
 {
-    public Task<string> TranslateAsync(string text, string translateFrom, string translateTo, CancellationToken cancellationToken = default)
-        => Task.FromResult("This is Noop translation");
+    public async Task<string> TranslateAsync(string text, string translateFrom, string translateTo,
+        CancellationToken cancellationToken = default)
+    {
+        await Task.Delay(3000);
+        return "This is Noop translation";   
+    }
 }
