@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TicketFlow.Services.Inquiries.Core.Data;
@@ -43,6 +44,18 @@ public static class Extensions
             .AddLanguageDetection(configuration)
             .AddSystemMetrics(configuration)
             .AddObservability(configuration);
+        
+        var hostName = configuration.GetValue<string>("rabbitMq:hostName");
+        
+        services.AddMassTransit(configurator =>
+        {
+            configurator.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(hostName, "/", h => { });
+                cfg.ConfigureEndpoints(context);
+            });
+        
+        });
 
         services.AddHostedService<InquiriesConsumerService>();
         services.AddHostedService<InquiriesTopologyInitializer>();

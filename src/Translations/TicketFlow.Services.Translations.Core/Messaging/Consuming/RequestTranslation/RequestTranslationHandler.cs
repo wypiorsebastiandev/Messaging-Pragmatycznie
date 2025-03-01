@@ -5,13 +5,10 @@ using TicketFlow.Shared.Messaging;
 namespace TicketFlow.Services.Translations.Core.Messaging.Consuming.RequestTranslation;
 
 internal sealed class RequestTranslationHandler(ITranslationsService translationsService, IMessagePublisher messagePublisher) 
-    : IMessageHandler<RequestTranslationV1>, IMessageHandler<RequestTranslationV2>
+    : IMessageHandler<RequestTranslationV1>
 {
     public Task HandleAsync(RequestTranslationV1 message, CancellationToken cancellationToken = default)
         => HandleAsync(message.Text, default, TranslationLanguage.English, message.TicketId, cancellationToken);
-
-    public Task HandleAsync(RequestTranslationV2 message, CancellationToken cancellationToken = default)
-        => HandleAsync(message.Text, message.LanguageCode, TranslationLanguage.English, message.ReferenceId, cancellationToken);
     
     private async Task HandleAsync(string text, string translateFrom, string languageCode, Guid referenceId, CancellationToken cancellationToken = default)
     {

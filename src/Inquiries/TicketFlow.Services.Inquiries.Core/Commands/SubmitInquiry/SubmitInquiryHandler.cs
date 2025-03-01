@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using TicketFlow.Services.Inquiries.Core.Data.Models;
 using TicketFlow.Services.Inquiries.Core.Data.Repositories;
@@ -9,7 +10,7 @@ using TicketFlow.Shared.Messaging;
 namespace TicketFlow.Services.Inquiries.Core.Commands.SubmitInquiry;
 
 internal sealed class SubmitInquiryHandler(IInquiriesRepository repository, ILanguageDetector languageDetector, 
-    IMessagePublisher messagePublisher, ILogger<SubmitInquiryHandler> logger) : ICommandHandler<SubmitInquiry>
+    IMessagePublisher messagePublisher, ILogger<SubmitInquiryHandler> logger, IBus massTransitBus) : ICommandHandler<SubmitInquiry>
 {
     private const string EnglishLanguageCode = "en";
     public async Task HandleAsync(SubmitInquiry command, CancellationToken cancellationToken = default)
@@ -37,10 +38,10 @@ internal sealed class SubmitInquiryHandler(IInquiriesRepository repository, ILan
         if (languageCode is not EnglishLanguageCode)
         {
             var requestTranslationV1 = new RequestTranslationV1(inquiry.Description, inquiry.Id);
-            var requestTranslationV2 = new RequestTranslationV2(inquiry.Description, languageCode, inquiry.Id);
             
             await messagePublisher.PublishAsync(requestTranslationV1, destination: "", routingKey: "request-translation-v1-queue", cancellationToken: cancellationToken);
-            await messagePublisher.PublishAsync(requestTranslationV2, destination: "", routingKey: "request-translation-v2-queue", cancellationToken: cancellationToken);
+            var sendEndpoint = await massTransitBus.GetSendEndpoint(new Uri("queue:request-translation-v1-queue"));
+            await sendEndpoint.Send(requestTranslationV1, cancellationToken: cancellationToken);
             
             logger.LogInformation($"Translation for inquiry with id: {inquiry.Id} has been requested.");
         }
