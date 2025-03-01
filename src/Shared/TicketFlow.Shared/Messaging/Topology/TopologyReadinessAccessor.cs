@@ -18,7 +18,7 @@ public class TopologyReadinessAccessor(TopologyOptions topologyOptions)
     {
         get
         {
-            return topologyOptions.CreateTopology is false || _readinessMap.Values.All(x => x);
+            return _readinessMap.Values.All(x => x);
         }
     }
 }

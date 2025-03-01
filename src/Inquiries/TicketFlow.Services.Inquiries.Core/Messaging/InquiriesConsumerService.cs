@@ -11,12 +11,5 @@ public class InquiriesConsumerService(IMessageConsumer messageConsumer, AnomalyS
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await messageConsumer
-            .ConsumeMessage<TicketCreated>(
-                queue: TicketCreatedQueue,
-                acceptedMessageTypes: null, // Handled by binding on RMQ instead (routing-key: ticket-created)
-                cancellationToken: stoppingToken);
-        
-        await anomalyConfigurator.ConsumeAnomalyChanges();
     }
 }

@@ -30,17 +30,19 @@ internal sealed class SubmitInquiryHandler(IInquiriesRepository repository, ILan
             inquiry.Category.ToString(),
             languageCode,
             inquiry.CreatedAt);
-        await messagePublisher.PublishAsync(inquiryReportedMessage, cancellationToken: cancellationToken);
+        
+        await messagePublisher.PublishAsync(
+            message: inquiryReportedMessage,
+            destination: "inquiry-submitted-exchange",
+            cancellationToken: cancellationToken);
         
         logger.LogInformation($"Inquiry with id: {inquiry.Id} submitted successfully.");
         
         if (languageCode is not EnglishLanguageCode)
         {
             var requestTranslationV1 = new RequestTranslationV1(inquiry.Description, inquiry.Id);
-            var requestTranslationV2 = new RequestTranslationV2(inquiry.Description, languageCode, inquiry.Id);
             
             await messagePublisher.PublishAsync(requestTranslationV1, destination: "", routingKey: "request-translation-v1-queue", cancellationToken: cancellationToken);
-            await messagePublisher.PublishAsync(requestTranslationV2, destination: "", routingKey: "request-translation-v2-queue", cancellationToken: cancellationToken);
             
             logger.LogInformation($"Translation for inquiry with id: {inquiry.Id} has been requested.");
         }
