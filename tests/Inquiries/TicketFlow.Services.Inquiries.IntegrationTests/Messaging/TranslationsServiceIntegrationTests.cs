@@ -36,6 +36,7 @@ public class TranslationsServiceIntegrationTests : IAsyncLifetime
             channel.ExchangeDeclare(exchange: "inquiry-submitted-exchange", type: "direct", durable: false, autoDelete: false, arguments: null);
             channel.QueueDeclare(queue: QueueV1, durable: false, exclusive: false, autoDelete: false, arguments: null);
             channel.QueueDeclare(queue: QueueV2, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueDeclare(queue: "inquiries-ticket-created", durable: false, exclusive: false, autoDelete: false, arguments: null);
         });
     }
 
