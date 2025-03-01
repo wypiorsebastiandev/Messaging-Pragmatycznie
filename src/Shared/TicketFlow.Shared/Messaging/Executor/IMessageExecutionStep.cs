@@ -1,6 +1,6 @@
 namespace TicketFlow.Shared.Messaging.Executor;
 
-internal interface IMessageExecutionStep
+public interface IMessageExecutionStep
 {
     ExecutionType Type { get; }
     Task ExecuteAsync(MessageProperties messageProperties, Func<Task> next, CancellationToken cancellationToken = default);

@@ -5,6 +5,8 @@ using TicketFlow.Services.Tickets.Core.Data;
 using TicketFlow.Services.Tickets.Core.Data.Repositories;
 using TicketFlow.Services.Tickets.Core.Initializers;
 using TicketFlow.Services.Tickets.Core.Messaging;
+using TicketFlow.Services.Tickets.Core.Messaging.Consuming.InquirySubmitted;
+using TicketFlow.Services.Tickets.Core.Messaging.Examples;
 using TicketFlow.Services.Tickets.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.AnomalyGeneration;
 using TicketFlow.Shared.App;
@@ -13,6 +15,7 @@ using TicketFlow.Shared.Data;
 using TicketFlow.Shared.Exceptions;
 using TicketFlow.Shared.Messaging;
 using TicketFlow.Shared.Messaging.Deduplication;
+using TicketFlow.Shared.Messaging.Executor;
 using TicketFlow.Shared.Messaging.Outbox;
 using TicketFlow.Shared.Messaging.RabbitMQ;
 using TicketFlow.Shared.Messaging.Resiliency;
@@ -48,6 +51,10 @@ public static class Extensions
         services.AddHostedService<TicketsConsumerService>();
         services.AddHostedService<TicketsTopologyInitializer>();
         services.AddTransient<ITicketsRepository, TicketsRepository>();
+        
+        //Examples
+        services.AddTransient<IMessageExecutionStep, MyLoggingStep>();
+        services.Decorate<IMessageHandler<InquirySubmitted>, MyLoggingDecorator<InquirySubmitted>>();
         
         return services;
     }
