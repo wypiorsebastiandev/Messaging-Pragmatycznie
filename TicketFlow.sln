@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Services.Inquiri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Services.Translations.IntegrationTests", "tests\Translations\TicketFlow.Services.Translations.IntegrationTests\TicketFlow.Services.Translations.IntegrationTests.csproj", "{0153A7C4-04A0-47D6-963E-95558FFE0B91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Playground", "src\TicketFlow.Playground\TicketFlow.Playground.csproj", "{A4F50E6E-2B97-43E1-B3FE-FDA44EEC3B12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,5 +156,9 @@ Global
 		{0153A7C4-04A0-47D6-963E-95558FFE0B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0153A7C4-04A0-47D6-963E-95558FFE0B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0153A7C4-04A0-47D6-963E-95558FFE0B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4F50E6E-2B97-43E1-B3FE-FDA44EEC3B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F50E6E-2B97-43E1-B3FE-FDA44EEC3B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4F50E6E-2B97-43E1-B3FE-FDA44EEC3B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F50E6E-2B97-43E1-B3FE-FDA44EEC3B12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
