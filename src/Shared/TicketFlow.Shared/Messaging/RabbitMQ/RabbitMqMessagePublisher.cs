@@ -41,7 +41,7 @@ internal sealed class RabbitMqMessagePublisher(ChannelFactory channelFactory, IM
 
         basicProperties.MessageId = messageId ?? Guid.NewGuid().ToString();
         basicProperties.Type = MessageTypeName.CreateFor<TMessage>();
-        basicProperties.DeliveryMode = 2;
+        basicProperties.DeliveryMode = 1;
         basicProperties.Headers = new Dictionary<string, object>();
         
         var headersToAdd = headers 
