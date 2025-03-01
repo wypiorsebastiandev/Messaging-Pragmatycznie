@@ -11,17 +11,18 @@ internal sealed class RequestTranslationHandler(ITranslationsService translation
     {
         var translatedText = await translationsService.TranslateAsync(
             message.Text,
-            TranslationLanguage.English,
+            TranslationLanguage.English, 
+            message.TranslateFrom,
             cancellationToken);
 
         if (string.IsNullOrWhiteSpace(translatedText))
         {
-            var translationSkippedMessage = new TranslationSkipped(message.Text, message.TicketId);
+            var translationSkippedMessage = new TranslationSkipped(message.Text, message.ReferenceId);
             await messagePublisher.PublishAsync(translationSkippedMessage, destination: "translation-completed-exchange", cancellationToken: cancellationToken);
             return;
         }
         
-        var translationCompletedMessage = new TranslationCompleted(message.Text, translatedText, message.TicketId);
+        var translationCompletedMessage = new TranslationCompleted(message.Text, translatedText, message.ReferenceId);
         await messagePublisher.PublishAsync(translationCompletedMessage, destination: "translation-completed-exchange", cancellationToken: cancellationToken);
     }
 }
