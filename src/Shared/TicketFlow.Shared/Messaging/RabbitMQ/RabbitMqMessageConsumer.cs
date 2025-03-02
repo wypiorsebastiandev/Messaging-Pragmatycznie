@@ -59,7 +59,7 @@ internal sealed class RabbitMqMessageConsumer(
                 return;
             }
             
-            channel.BasicAck(ea.DeliveryTag, false);
+            channel.BasicNack(ea.DeliveryTag, false, true);
         };
 
         await EnsureTopologyReady(cancellationToken);
