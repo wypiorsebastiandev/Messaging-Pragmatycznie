@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using TicketFlow.KafkaPlayground.Shared;
 using TicketFlow.Shared.AnomalyGeneration.MessagingApi;
 using TicketFlow.Shared.App;
 using TicketFlow.Shared.Messaging;
@@ -26,5 +27,8 @@ public class InquiriesTopologyInitializer : TopologyInitializerBase
             filter: "ticket-created",
             cancellationToken: stoppingToken
         );
+        
+        var topologyInitializer = ServiceProvider.GetService<KafkaTopologyInitializer>();
+        await topologyInitializer!.CreateTopicAsync("inquiry-changes", numberOfPartitions: 3);
     }
 }

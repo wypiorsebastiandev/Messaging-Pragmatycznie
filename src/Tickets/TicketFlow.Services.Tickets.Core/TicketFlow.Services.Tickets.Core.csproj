@@ -11,6 +11,11 @@
       <ProjectReference Include="..\..\Communication\TicketFlow.Services.Communication.Alerting\TicketFlow.Services.Communication.Alerting.csproj" />
       <ProjectReference Include="..\..\Shared\TicketFlow.Shared\TicketFlow.Shared.csproj" />
       <ProjectReference Include="..\..\SystemMetrics\TicketFlow.Services.SystemMetrics.Generator\TicketFlow.Services.SystemMetrics.Generator.csproj" />
+      <ProjectReference Include="..\..\_KafkaPlayground\TicketFlow.KafkaPlayground.Shared\TicketFlow.KafkaPlayground.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Confluent.Kafka" Version="2.8.0" />
     </ItemGroup>
 
 </Project>

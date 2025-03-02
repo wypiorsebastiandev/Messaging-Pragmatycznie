@@ -16,7 +16,7 @@ internal sealed class TicketsConsumerService(IMessageConsumer messageConsumer, A
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await messageConsumer.ConsumeMessage<InquirySubmitted>();
+        // await messageConsumer.ConsumeMessage<InquirySubmitted>();
         await messageConsumer.ConsumeMessage<TranslationCompleted>();
         await messageConsumer.ConsumeMessage<DeadlinesCalculated>(queue: SLAChangesQueue, acceptedMessageTypes: ["DeadlinesCalculated"]);
         if (FeatureFlags.UseListenToYourselfExample)

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using TicketFlow.KafkaPlayground.Shared;
 using TicketFlow.Services.Inquiries.Core.Data.Models;
 using TicketFlow.Services.Inquiries.Core.Data.Repositories;
 using TicketFlow.Services.Inquiries.Core.LanguageDetection;
@@ -9,7 +10,7 @@ using TicketFlow.Shared.Messaging;
 namespace TicketFlow.Services.Inquiries.Core.Commands.SubmitInquiry;
 
 internal sealed class SubmitInquiryHandler(IInquiriesRepository repository, ILanguageDetector languageDetector, 
-    IMessagePublisher messagePublisher, ILogger<SubmitInquiryHandler> logger) : ICommandHandler<SubmitInquiry>
+    IMessagePublisher messagePublisher, ILogger<SubmitInquiryHandler> logger, KafkaPublisher kafkaPublisher) : ICommandHandler<SubmitInquiry>
 {
     private const string EnglishLanguageCode = "en";
     public async Task HandleAsync(SubmitInquiry command, CancellationToken cancellationToken = default)
@@ -30,7 +31,9 @@ internal sealed class SubmitInquiryHandler(IInquiriesRepository repository, ILan
             inquiry.Category.ToString(),
             languageCode,
             inquiry.CreatedAt);
-        await messagePublisher.PublishAsync(inquiryReportedMessage, cancellationToken: cancellationToken);
+        
+        // await messagePublisher.PublishAsync(inquiryReportedMessage, cancellationToken: cancellationToken);
+        await kafkaPublisher.PublishBlockingAsync(inquiryReportedMessage, "inquiry-changes", cancellationToken: cancellationToken);
         
         logger.LogInformation($"Inquiry with id: {inquiry.Id} submitted successfully.");
         

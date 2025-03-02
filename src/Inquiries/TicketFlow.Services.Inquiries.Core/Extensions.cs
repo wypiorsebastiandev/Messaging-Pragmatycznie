@@ -1,5 +1,7 @@
+using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TicketFlow.KafkaPlayground.Shared;
 using TicketFlow.Services.Inquiries.Core.Data;
 using TicketFlow.Services.Inquiries.Core.Data.Repositories;
 using TicketFlow.Services.Inquiries.Core.LanguageDetection;
@@ -42,7 +44,11 @@ public static class Extensions
             .AddPostgres<InquiriesDbContext>(configuration)
             .AddLanguageDetection(configuration)
             .AddSystemMetrics(configuration)
-            .AddObservability(configuration);
+            .AddObservability(configuration)
+            .AddKafka(producerConfig: new ProducerConfig
+            {
+                EnableDeliveryReports = true
+            });
 
         services.AddHostedService<InquiriesConsumerService>();
         services.AddHostedService<InquiriesTopologyInitializer>();

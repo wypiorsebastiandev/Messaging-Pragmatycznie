@@ -26,7 +26,8 @@ public class KafkaConsumer<TMessage>(
             {
                 var consumeResult = consumer.Consume(stoppingToken);
 
-                var handler = serviceProvider.GetService<IMessageHandler<TMessage>>();
+                var iocScope = serviceProvider.CreateScope();
+                var handler = iocScope.ServiceProvider.GetService<IMessageHandler<TMessage>>();
                 await handler!.HandleAsync(consumeResult.Message.Value, stoppingToken);
                 
                 ManualCommitIfEnabled(consumed, consumer, consumeResult);

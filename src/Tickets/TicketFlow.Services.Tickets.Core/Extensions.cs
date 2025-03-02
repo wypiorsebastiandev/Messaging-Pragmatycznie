@@ -1,10 +1,14 @@
+using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TicketFlow.KafkaPlayground.Shared;
 using TicketFlow.Services.SystemMetrics.Generator;
 using TicketFlow.Services.Tickets.Core.Data;
 using TicketFlow.Services.Tickets.Core.Data.Repositories;
 using TicketFlow.Services.Tickets.Core.Initializers;
 using TicketFlow.Services.Tickets.Core.Messaging;
+using TicketFlow.Services.Tickets.Core.Messaging.Consuming.InquirySubmitted;
+using TicketFlow.Services.Tickets.Core.Messaging.Publishing;
 using TicketFlow.Services.Tickets.Core.Messaging.Publishing.Conventions;
 using TicketFlow.Shared.AnomalyGeneration;
 using TicketFlow.Shared.App;
@@ -48,6 +52,13 @@ public static class Extensions
         services.AddHostedService<TicketsConsumerService>();
         services.AddHostedService<TicketsTopologyInitializer>();
         services.AddTransient<ITicketsRepository, TicketsRepository>();
+
+        services.AddKafka(consumerConfig: new ConsumerConfig
+            {
+                GroupId = "tickets-service",
+                AutoOffsetReset = AutoOffsetReset.Earliest
+            })
+            .AddKafkaConsumer<InquirySubmitted>("inquiry-changes");
         
         return services;
     }
