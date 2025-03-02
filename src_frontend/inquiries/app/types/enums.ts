@@ -6,8 +6,8 @@ export enum InquiryCategory {
 }
 
 export enum InquiryStatus {
-  NEW = "new",
-  IN_PROGRESS = "in_progress",
-  RESOLVED = "resolved",
-  CLOSED = "closed",
+  NEW = "New",
+  IN_PROGRESS = "InProgress",
+  RESOLVED = "Resolved",
+  CLOSED = "Closed",
 } 
